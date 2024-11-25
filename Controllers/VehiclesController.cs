@@ -8,6 +8,7 @@ namespace RTO.Controllers
 
     public class VehiclesController : Controller
     {
+
         private readonly ApplicationDbContext _context;
         public VehiclesController(ApplicationDbContext context)
         {
@@ -19,8 +20,8 @@ namespace RTO.Controllers
         }
 
         //API for POST
-        [HttpPost]
         [Route("api/[controller]")]
+        [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
             if (vehicle == null)
@@ -34,6 +35,34 @@ namespace RTO.Controllers
             _context.Vehicles.Add(vehicle);
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        //API for GET
+        /*[HttpGet]
+        [Route("api/[controller]")]
+        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle()
+        {
+            var vehicles = _context.Vehicles.ToListAsync();
+            if (vehicles == null)
+            {
+                return BadRequest();
+            }
+            await _context.SaveChangesAsync();
+            return Ok(vehicles);
+        }*/
+
+        //API for Delete
+        [HttpDelete]
+        [Route("api/[controller]")]
+        public async Task<ActionResult<Vehicle>> DeleteVehicle(Vehicle vehicle)
+        {
+            if(vehicle == null)
+            {
+                return BadRequest();
+            }
+            _context.Vehicles.Remove(vehicle);
+            await _context.SaveChangesAsync();
+            return Ok(vehicle);
         }
 
     }
