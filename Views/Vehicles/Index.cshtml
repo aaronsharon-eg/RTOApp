@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTO Vehicle Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vehicle Management</h1>
+
+        <div>
+            <input type="text" placeholder="License Plate" data-bind="value: newLicensePlate" />
+            <input type="text" placeholder="Model" data-bind="value: newModel" />
+            <input type="text" placeholder="Owner" data-bind="value: newOwner" />
+            <button data-bind="click: addVehicle">Add Vehicle</button>
+        </div>
+
+        <ul data-bind="foreach: vehicles">
+            <li>
+                <span data-bind="text: licensePlate"></span> -
+                <span data-bind="text: model"></span> -
+                <span data-bind="text: owner"></span>
+                <button data-bind="click: $parent.editVehicle">Edit</button>
+                <button data-bind="click: $parent.deleteVehicle">Delete</button>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-min.js"></script>
+    <script src="/js/app.js"></script> <!-- Your Knockout.js ViewModel -->
+</body>
+</html>

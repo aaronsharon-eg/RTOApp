@@ -5,7 +5,16 @@ using RTO.Models;
 
 namespace RTO.Controllers
 {
-    [Route("api/[controller]")]
+
+    public class VehiclesController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View(); // Ensure there is a corresponding view at Views/Vehicles/Index.cshtml
+        }
+    }
+
+    /*[Route("api/[controller]")]
     [ApiController]
     public class VehiclesController : ControllerBase
     {
@@ -63,5 +72,5 @@ namespace RTO.Controllers
 
             return NoContent();
         }
-    }
+    }*/
 }
