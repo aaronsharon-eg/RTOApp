@@ -5,7 +5,7 @@ using RTO.Models;
 
 namespace RTO.Controllers
 {
-
+ 
     public class VehiclesController : Controller
     {
 

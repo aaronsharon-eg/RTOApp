@@ -1,1 +1,121 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Vehicles";
+}
+
+<h2>Vehicles</h2>
+
+<!-- Form for adding new vehicles -->
+<form data-bind="submit: saveVehicle">
+    <label>License Plate:</label>
+    <input type="text" data-bind="value: newVehicle.licensePlate" required />
+
+    <label>Model:</label>
+    <input type="text" data-bind="value: newVehicle.model" required />
+
+    <label>Owner:</label>
+    <input type="text" data-bind="value: newVehicle.owner" required />
+
+    <label>Registration Date:</label>
+    <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required />
+
+    <button type="submit">Save Vehicle</button>
+</form>
+
+<!-- Button to fetch all vehicles -->
+<button data-bind="click: fetchVehicles">Fetch All Vehicles</button>
+
+<!-- Table to display fetched vehicles -->
+<table>
+    <thead>
+        <tr>
+            <th>License Plate</th>
+            <th>Model</th>
+            <th>Owner</th>
+            <th>Registration Date</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: vehicles">
+        <tr>
+            <td data-bind="text: licensePlate"></td>
+            <td data-bind="text: model"></td>
+            <td data-bind="text: owner"></td>
+            <td data-bind="text: registrationDate"></td>
+        </tr>
+    </tbody>
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- Make sure this line is present -->
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-min.js"></script> *@
+<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
+
+
+<script>
+    function VehicleViewModel() {
+        var self = this;
+
+        // Observable properties for a new vehicle
+        self.newVehicle = {
+            licensePlate: ko.observable(),
+            model: ko.observable(),
+            owner: ko.observable(),
+            registrationDate: ko.observable()
+        };
+
+        // Observable array to hold fetched vehicles
+        self.vehicles = ko.observableArray([]);
+
+        // Function to save the vehicle
+        self.saveVehicle = function (event) {
+            event.preventDefault(); // Prevent default form submission
+            console.log("Saving Vehicle:", ko.toJS(self.newVehicle)); // Log vehicle data to console
+
+            $.ajax({
+                url: '/api/vehicles', // Ensure this URL matches your API endpoint for POST
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(ko.toJS(self.newVehicle)),
+                success: function (response) {
+                    console.log("Vehicle saved successfully:", response);
+                    self.clearForm();
+                    self.fetchVehicles(); // Refresh the list after adding a new vehicle
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error saving vehicle:", error);
+                    alert("Failed to save vehicle: " + xhr.responseText); // Alert user of failure
+                }
+            });
+        };
+
+        // Function to clear form fields after submission
+        self.clearForm = function () {
+            self.newVehicle.licensePlate('');
+            self.newVehicle.model('');
+            self.newVehicle.owner('');
+            self.newVehicle.registrationDate('');
+        };
+
+        // Function to fetch all vehicles from the server
+        self.fetchVehicles = function () {
+            $.ajax({
+                url: '/api/Vehicles', // Ensure this URL matches your API endpoint for GET
+                type: 'GET',
+                success: function (data) {
+                    console.log("Fetched Vehicles:", data);
+                    self.vehicles(data); // Populate the observable array with fetched data
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching vehicles:", error);
+                    alert("Failed to fetch vehicles: " + xhr.responseText); // Alert user of failure
+                }
+            });
+        };
+    }
+
+    // Apply bindings when the document is ready
+    $(document).ready(function () {
+        var viewModel = new VehicleViewModel();
+        ko.applyBindings(viewModel);
+
+        // Fetch vehicles on page load (optional)
+        viewModel.fetchVehicles();
+    });
+</script>
