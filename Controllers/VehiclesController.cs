@@ -37,26 +37,25 @@ namespace RTO.Controllers
             return Ok();
         }
 
-        //API for GET
-        /*[HttpGet]
+        // GET: api/vehicles
+        [HttpGet]
         [Route("api/[controller]")]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle()
+        public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
         {
-            var vehicles = _context.Vehicles.ToListAsync();
-            if (vehicles == null)
+            var vehicles = await _context.Vehicles.ToListAsync();
+            if (vehicles == null || vehicles.Count == 0)
             {
-                return BadRequest();
+                return NotFound();
             }
-            await _context.SaveChangesAsync();
             return Ok(vehicles);
-        }*/
+        }
 
         //API for Delete
         [HttpDelete]
         [Route("api/[controller]")]
         public async Task<ActionResult<Vehicle>> DeleteVehicle(Vehicle vehicle)
         {
-            if(vehicle == null)
+            if (vehicle == null)
             {
                 return BadRequest();
             }
@@ -68,63 +67,63 @@ namespace RTO.Controllers
     }
 }
 
-    /* [Route("api/[controller]")]
-     [ApiController]
-     public class VehiclesController : ControllerBase
+/* [Route("api/[controller]")]
+ [ApiController]
+ public class VehiclesController : ControllerBase
+ {
+     private readonly ApplicationDbContext _context;
+
+     public VehiclesController(ApplicationDbContext context)
      {
-         private readonly ApplicationDbContext _context;
+         _context = context;
+     }
 
-         public VehiclesController(ApplicationDbContext context)
-         {
-             _context = context;
-         }
+     [HttpGet]
+     public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
+     {
+         return await _context.Vehicles.ToListAsync();
+     }
 
-         [HttpGet]
-         public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
-         {
-             return await _context.Vehicles.ToListAsync();
-         }
+     [HttpGet("{id}")]
+     public async Task<ActionResult<Vehicle>> GetVehicle(int id)
+     {
+         var vehicle = await _context.Vehicles.FindAsync(id);
+         if (vehicle == null)
+             return NotFound();
+         return vehicle;
+     }
 
-         [HttpGet("{id}")]
-         public async Task<ActionResult<Vehicle>> GetVehicle(int id)
-         {
-             var vehicle = await _context.Vehicles.FindAsync(id);
-             if (vehicle == null)
-                 return NotFound();
-             return vehicle;
-         }
+     [HttpPost]
+     public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
+     {
+         _context.Vehicles.Add(vehicle);
+         await _context.SaveChangesAsync();
+         return CreatedAtAction(nameof(GetVehicle), new { id = vehicle.Id }, vehicle);
+     }
 
-         [HttpPost]
-         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
-         {
-             _context.Vehicles.Add(vehicle);
-             await _context.SaveChangesAsync();
-             return CreatedAtAction(nameof(GetVehicle), new { id = vehicle.Id }, vehicle);
-         }
+     [HttpPut("{id}")]
+     public async Task<IActionResult> PutVehicle(int id, Vehicle vehicle)
+     {
+         if (id != vehicle.Id)
+             return BadRequest();
 
-         [HttpPut("{id}")]
-         public async Task<IActionResult> PutVehicle(int id, Vehicle vehicle)
-         {
-             if (id != vehicle.Id)
-                 return BadRequest();
+         _context.Entry(vehicle).State = EntityState.Modified;
+         await _context.SaveChangesAsync();
 
-             _context.Entry(vehicle).State = EntityState.Modified;
-             await _context.SaveChangesAsync();
+         return NoContent();
+     }
 
-             return NoContent();
-         }
+     [HttpDelete("{id}")]
+     public async Task<IActionResult> DeleteVehicle(int id)
+     {
+         var vehicle = await _context.Vehicles.FindAsync(id);
+         if (vehicle == null)
+             return NotFound();
 
-         [HttpDelete("{id}")]
-         public async Task<IActionResult> DeleteVehicle(int id)
-         {
-             var vehicle = await _context.Vehicles.FindAsync(id);
-             if (vehicle == null)
-                 return NotFound();
+         _context.Vehicles.Remove(vehicle);
+         await _context.SaveChangesAsync();
 
-             _context.Vehicles.Remove(vehicle);
-             await _context.SaveChangesAsync();
-
-             return NoContent();
-         }
-     }*/
+         return NoContent();
+     }
+ }*/
 
