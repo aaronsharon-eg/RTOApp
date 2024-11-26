@@ -64,6 +64,37 @@ namespace RTO.Controllers
             return Ok(vehicle);
         }
 
+        //API for PUT
+        [HttpPut]
+        [Route("api/[controller]")]
+        public async Task<IActionResult> PutVehicle(int id, Vehicle vehicle)
+        {
+            if(vehicle == null)
+            {
+                return BadRequest("Not Found");
+            }
+            if(id != vehicle.Id)
+            {
+                return BadRequest("The particular ID is not Found");
+            }
+
+            var AccessVehicle = await _context.Vehicles.FindAsync(id);
+            if (AccessVehicle == null)
+            {
+                _context.Vehicles.Add(vehicle);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetVehicles), new { id = vehicle.Id }, vehicle);
+            }
+
+            AccessVehicle.LicensePlate = vehicle.LicensePlate;
+            AccessVehicle.Model = vehicle.Model;
+            AccessVehicle.Owner = vehicle.Owner;  
+            //AccessVehicle.RegistrationDate = vehicle.RegistrationDate;
+            await _context.SaveChangesAsync();
+            return Ok(AccessVehicle);  
+           
+        }
+
     }
 }
 
