@@ -50,19 +50,22 @@ namespace RTO.Controllers
             return Ok(vehicles);
         }
 
-        //API for Delete
         [HttpDelete]
         [Route("api/[controller]")]
-        public async Task<ActionResult<Vehicle>> DeleteVehicle(Vehicle vehicle)
+        public async Task<IActionResult> DeleteVehicle([FromBody] int id)
         {
+            var vehicle = await _context.Vehicles.FindAsync(id);
             if (vehicle == null)
             {
-                return BadRequest();
+                return NotFound(); // Return 404 if the vehicle is not found
             }
+
             _context.Vehicles.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return Ok(vehicle);
+
+            return NoContent(); // Return 204 No Content on successful deletion
         }
+
 
         //API for PUT
         [HttpPut]

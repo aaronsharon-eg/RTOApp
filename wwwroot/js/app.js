@@ -1,4 +1,4 @@
-﻿function VehicleViewModel() {
+﻿/*function VehicleViewModel() {
     var self = this;
 
     // Observable array to hold vehicle data
@@ -32,4 +32,4 @@
 }
 
 // Apply Knockout bindings
-ko.applyBindings(new VehicleViewModel());
+ko.applyBindings(new VehicleViewModel());*/
