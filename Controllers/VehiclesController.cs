@@ -19,22 +19,30 @@ namespace RTO.Controllers
             return View();
         }
 
-        //API for POST
         [Route("api/[controller]")]
         [HttpPost]
-        public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
+        public async Task<ActionResult<Vehicle>> PostVehicle([FromBody] Vehicle vehicle)
         {
             if (vehicle == null)
             {
-                return BadRequest();
+                return BadRequest("Vehicle cannot be null.");
             }
+
+            if (string.IsNullOrEmpty(vehicle.LicensePlate) || string.IsNullOrEmpty(vehicle.Model) ||
+                string.IsNullOrEmpty(vehicle.Owner))
+            {
+                return BadRequest("All fields must be filled.");
+            }
+
             if (vehicle.RegistrationDate == default(DateTime))
             {
                 vehicle.RegistrationDate = DateTime.Now;
             }
+
             _context.Vehicles.Add(vehicle);
             await _context.SaveChangesAsync();
-            return Ok();
+
+            return Ok("Request Submitted");
         }
 
         // GET: api/vehicles

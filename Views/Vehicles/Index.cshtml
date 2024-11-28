@@ -69,15 +69,15 @@
         self.vehicles = ko.observableArray([]);
 
         // Function to save the vehicle
-        self.saveVehicle = function (event) {
-            event.preventDefault(); // Prevent default form submission
-            console.log("Saving Vehicle:", ko.toJS(self.newVehicle)); // Log vehicle data to console
+        self.saveVehicle = function () {
+            var vehicleData = ko.toJS(self.newVehicle); // Convert observables to plain JavaScript object
+            console.log("Saving Vehicle:", vehicleData); // Log vehicle data to console
 
             $.ajax({
-                url: '/api/Vehicles', // Ensure this URL matches your API endpoint for POST
+                url: '/api/Vehicles',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(ko.toJS(self.newVehicle)),
+                data: JSON.stringify(vehicleData),
                 success: function (response) {
                     console.log("Vehicle saved successfully:", response);
                     self.clearForm();
@@ -85,11 +85,10 @@
                 },
                 error: function (xhr, status, error) {
                     console.error("Error saving vehicle:", error);
-                    alert("Failed to save vehicle: " + xhr.responseText); // Alert user of failure
+                    alert("Failed to save vehicle: " + xhr.responseText);
                 }
             });
         };
-
         // Function to clear form fields after submission
         self.clearForm = function () {
             self.newVehicle.licensePlate('');
