@@ -1,216 +1,226 @@
 ﻿@{
-	ViewData["Title"] = "Vehicles";
+    ViewData["Title"] = "Vehicles";
 }
 
 <h2>Vehicles</h2>
 
-<!-- Form for adding or editing vehicles -->
-<form data-bind="submit: saveVehicle">
-	<label>License Plate:</label>
-	<input type="text" data-bind="value: newVehicle.licensePlate" required />
+<!-- Button to open the Add Vehicle modal -->
+<button data-bind="click: openAddVehicleModal">Add Vehicle</button>
 
-	<label>Model:</label>
-	<input type="text" data-bind="value: newVehicle.model" required />
+<!-- Modal for adding or editing vehicles -->
+<div id="addVehicleModal" style="display:none;">
+    <h3>Add/Edit Vehicle</h3>
+    <form data-bind="submit: saveVehicle">
+        <label>License Plate:</label>
+        <input type="text" data-bind="value: newVehicle.licensePlate" required />
 
-	<label>Owner:</label>
-	<input type="text" data-bind="value: newVehicle.owner" required />
+        <label>Model:</label>
+        <input type="text" data-bind="value: newVehicle.model" required />
 
-	<label>Registration Date:</label>
-	<input type="datetime-local" data-bind="value: newVehicle.registrationDate" required />
+        <label>Owner:</label>
+        <input type="text" data-bind="value: newVehicle.owner" required />
 
-	<button type="submit">Save Vehicle</button>
-</form>
+        <label>Registration Date:</label>
+        <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required />
+
+        <button type="submit">Save Vehicle</button>
+        <button type="button" data-bind="click: closeAddVehicleModal">Cancel</button>
+    </form>
+</div>
 
 <!-- Button to fetch all vehicles -->
 <button data-bind="click: fetchVehicles">Fetch All Vehicles</button>
 
 <!-- Table to display fetched vehicles -->
 <table>
-	<thead>
-		<tr>
-			<th>License Plate</th>
-			<th>Model</th>
-			<th>Owner</th>
-			<th>Registration Date</th>
-			<th>Actions</th> <!-- Add a header for actions -->
-		</tr>
-	</thead>
-	<tbody data-bind="foreach: vehicles">
-		<tr>
-			<td data-bind="text: licensePlate"></td>
-			<td data-bind="text: model"></td>
-			<td data-bind="text: owner"></td>
-			<td data-bind="text: registrationDate"></td>
-			<td>
-				<!-- Add the delete and edit buttons -->
-				<button data-bind="click: $parent.deleteVehicle">Delete</button>
-				<button data-bind="click: $parent.editVehicle">Edit</button> <!-- Edit button -->
-			</td>
-		</tr>
-	</tbody>
+    <thead>
+        <tr>
+            <th>License Plate</th>
+            <th>Model</th>
+            <th>Owner</th>
+            <th>Registration Date</th>
+            <th>Actions</th> <!-- Add a header for actions -->
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: vehicles">
+        <tr>
+            <td data-bind="text: licensePlate"></td>
+            <td data-bind="text: model"></td>
+            <td data-bind="text: owner"></td>
+            <td data-bind="text: registrationDate"></td>
+            <td>
+                <!-- Add the delete and edit buttons -->
+                <button data-bind="click: $parent.deleteVehicle">Delete</button>
+                <button data-bind="click: $parent.editVehicle">Edit</button> <!-- Edit button -->
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- Ensure this line is present -->
 <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
 
 <script>
-	// ViewModel for managing vehicle data
-	function VehicleViewModel() {
-		var self = this;
+    // ViewModel for managing vehicle data
+    function VehicleViewModel() {
+        var self = this;
 
-		// Observable properties for a new vehicle
-		self.newVehicle = {
-			id: ko.observable(), // Add ID observable for editing
-			licensePlate: ko.observable(),
-			model: ko.observable(),
-			owner: ko.observable(),
-			registrationDate: ko.observable()
-		};
+        // Observable properties for a new vehicle
+        self.newVehicle = {
+            id: ko.observable(), // Add ID observable for editing
+            licensePlate: ko.observable(),
+            model: ko.observable(),
+            owner: ko.observable(),
+            registrationDate: ko.observable()
+        };
 
-		// Observable array to hold fetched vehicles
-		self.vehicles = ko.observableArray([]);
+        // Observable array to hold fetched vehicles
+        self.vehicles = ko.observableArray([]);
 
-		// Function to save or update the vehicle
-		// self.saveVehicle = function () {
-		// 	var vehicleData = ko.toJS(self.newVehicle); Convert observables to plain JavaScript object
-		// 	console.log("Saving Vehicle:", vehicleData); Log vehicle data to console
+        // Function to open the Add Vehicle modal
+        self.openAddVehicleModal = function () {
+            // Clear any previous values in the form
+            self.clearForm();
 
-		// 	if (vehicleData.id) { Check if we are editing an existing vehicle
-		// 		console.log("Editing vehicle with ID:", vehicleData.id); Log the ID being edited
+            // Show the modal
+            document.getElementById('addVehicleModal').style.display = 'block';
+        };
 
-		// 		$.ajax({
-		// 			url: '/api/Vehicles', Ensure this URL matches your API endpoint for PUT
-		// 			type: 'PUT',
-		// 			contentType: 'application/json',
-		// 			data: JSON.stringify(vehicleData), Send entire vehicle data including ID
-		// 			success: function (response) {
-		// 				console.log("Vehicle updated successfully:", response);
-		// 				self.clearForm();
-		// 				self.fetchVehicles(); Refresh the list after updating a vehicle
-		// 			},
-		// 			error: function (xhr, status, error) {
-		// 				console.error("Error updating vehicle:", error);
-		// 				alert("Failed to update vehicle: " + xhr.responseText);
-		// 			}
-		// 		});
-		// 	}
+        // Function to close the Add Vehicle modal
+        self.closeAddVehicleModal = function () {
+            document.getElementById('addVehicleModal').style.display = 'none';
+        };
 
-		// Function to save or update the vehicle
-		self.saveVehicle = function () {
-			var vehicleData = ko.toJS(self.newVehicle); // Convert observables to plain JavaScript object
-			console.log("Vehicle Data to Update:", vehicleData);
+        // Function to save or update the vehicle
+        self.saveVehicle = function () {
+            var vehicleData = ko.toJS(self.newVehicle); // Convert observables to plain JavaScript object
 
+            // Remove id if it's empty or undefined for new vehicles
+            if (!vehicleData.id) {
+                delete vehicleData.id; // Remove ID for new vehicle creation
+            }
 
-			// Check if there is an ID set for editing
-			if (vehicleData.id) {
-				// If ID exists, we are editing an existing vehicle (PUT request)
-				$.ajax({
-					url: '/api/random/' + vehicleData.id, // Pass the ID in the URL for PUT
-					type: 'PUT',
-					contentType: 'application/json',
-					data: JSON.stringify(vehicleData), // Send the full vehicle data including ID
-					success: function (response) {
-						console.log("Vehicle updated successfully:", response);
-						self.clearForm(); // Clear the form
-						self.fetchVehicles(); // Refresh the list after updating the vehicle
-					},
-					error: function (xhr, status, error) {
-						console.error("Error updating vehicle:", error);
-						alert("Failed to update vehicle: " + xhr.responseText);
-					}
-				});
-			} else {
-				// If no ID exists, we are creating a new vehicle (POST request)
-				$.ajax({
-					url: '/api/Vehicles', // API endpoint for creating a new vehicle
-					type: 'POST',
-					contentType: 'application/json',
-					data: JSON.stringify(vehicleData), // Send the new vehicle data
-					success: function (response) {
-						console.log("Vehicle saved successfully:", response);
-						self.clearForm(); // Clear the form
-						self.fetchVehicles(); // Refresh the list after saving the new vehicle
-					},
-					error: function (xhr, status, error) {
-						console.error("Error saving vehicle:", error);
-						alert("Failed to save vehicle: " + xhr.responseText);
-					}
-				});
-			}
-		};
+            console.log("Vehicle Data to Save:", vehicleData); // Log the data being sent
 
-		// Function to populate form fields for editing
-		self.editVehicle = function (vehicle) {
-			self.newVehicle.id(vehicle.id); // Set ID for editing
-			self.newVehicle.licensePlate(vehicle.licensePlate);
-			self.newVehicle.model(vehicle.model);
-			self.newVehicle.owner(vehicle.owner);
-			self.newVehicle.registrationDate(vehicle.registrationDate);
-		};
+            if (vehicleData.id) {
+                // Existing vehicle update logic (PUT request)
+                $.ajax({
+                    url: '/api/random/' + vehicleData.id,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(vehicleData),
+                    success: function (response) {
+                        console.log("Vehicle updated successfully:", response);
+                        self.clearForm();
+                        self.fetchVehicles();
+                        self.closeAddVehicleModal();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error updating vehicle:", error);
+                        alert("Failed to update vehicle: " + xhr.responseText);
+                    }
+                });
+            } else {
+                // New vehicle creation logic (POST request)
+                $.ajax({
+                    url: '/api/Vehicles',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(vehicleData), // Send the new vehicle data
+                    success: function (response) {
+                        console.log("Vehicle saved successfully:", response);
+                        self.clearForm();
+                        self.fetchVehicles();
+                        self.closeAddVehicleModal();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error saving vehicle:", error);
+                        alert("Failed to save vehicle: " + xhr.responseText);
+                    }
+                });
+            }
+        };
+
+        // Function to populate form fields for editing
+        self.editVehicle = function (vehicle) {
+            self.newVehicle.id(vehicle.id); // Set ID for editing
+            self.newVehicle.licensePlate(vehicle.licensePlate);
+            self.newVehicle.model(vehicle.model);
+            self.newVehicle.owner(vehicle.owner);
+            self.newVehicle.registrationDate(vehicle.registrationDate);
+
+            // Open modal for editing
+            document.getElementById('addVehicleModal').style.display = 'block';
+        };
 
 
-	// Function to clear form fields after submission
-	self.clearForm = function () {
-		self.newVehicle.id(''); // Clear ID field as well
-		self.newVehicle.licensePlate('');
-		self.newVehicle.model('');
-		self.newVehicle.owner('');
-		self.newVehicle.registrationDate('');
-	};
+        // Function to clear form fields after submission
+        self.clearForm = function () {
+            self.newVehicle.id(''); // Clear ID field as well
+            self.newVehicle.licensePlate('');
+            self.newVehicle.model('');
+            self.newVehicle.owner('');
+            self.newVehicle.registrationDate('');
+        };
 
-	// Function to fetch all vehicles from the server
-	self.fetchVehicles = function () {
-		$.ajax({
-			url: '/api/Vehicles', // Ensure this URL matches your API endpoint for GET
-			type: 'GET',
-			success: function (data) {
-				console.log("Fetched Vehicles:", data);
-				self.vehicles(data); // Populate the observable array with fetched data
-			},
-			error: function (xhr, status, error) {
-				console.error("Error fetching vehicles:", error);
-				alert("Failed to fetch vehicles: " + xhr.responseText); // Alert user of failure
-			}
-		});
-	};
+        // Function to fetch all vehicles from the server
+        self.fetchVehicles = function () {
+            $.ajax({
+                url: '/api/Vehicles', // Ensure this URL matches your API endpoint for GET
+                type: 'GET',
+                success: function (data) {
+                    console.log("Fetched Vehicles:", data);
+                    self.vehicles(data); // Populate the observable array with fetched data
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching vehicles:", error);
+                    alert("Failed to fetch vehicles: " + xhr.responseText); // Alert user of failure
+                }
+            });
+        };
 
-	// Function to delete a vehicle
-	self.deleteVehicle = function (vehicle) {
-		if (confirm("Are you sure you want to delete this vehicle?")) { // Confirm deletion
+        // Function to delete a vehicle
+        self.deleteVehicle = function (vehicle) {
+            if (confirm("Are you sure you want to delete this vehicle?")) { // Confirm deletion
 			console.log("Attempting to delete vehicle with ID:", vehicle.id); // Log ID being deleted
-			$.ajax({
+                $.ajax({
 				url: '/api/Vehicles', // Use the base URL for the DELETE endpoint
-				type: 'DELETE',
+                    type: 'DELETE',
 				contentType: 'application/json',
 				data: JSON.stringify(vehicle.id), // Send the ID in the request body
-				success: function (response) {
-					console.log("Vehicle deleted successfully:", response);
-					self.fetchVehicles(); // Refresh the list after deletion
-				},
-				error: function (xhr, status, error) {
-					console.error("Error deleting vehicle:", xhr); // Log full xhr object for debugging
-					alert("Failed to delete vehicle: " + xhr.responseText); // Alert user of failure
-				}
-			});
-		}
-	};
+                    success: function (response) {
+                        console.log("Vehicle deleted successfully:", response);
+                        self.fetchVehicles(); // Refresh the list after deletion
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error deleting vehicle:", xhr);
+                        alert("Failed to delete vehicle: " + xhr.responseText);
+                    }
+                });
+            }
+        };
+    }
 
-	// Function to populate form fields for editing
-	self.editVehicle = function (vehicle) {
-		self.newVehicle.id(vehicle.id); // Set ID for editing
-		self.newVehicle.licensePlate(vehicle.licensePlate);
-		self.newVehicle.model(vehicle.model);
-		self.newVehicle.owner(vehicle.owner);
-		self.newVehicle.registrationDate(vehicle.registrationDate);
-	};
-		}
+    // Apply bindings when the document is ready
+    $(document).ready(function () {
+        var viewModel = new VehicleViewModel();
+        ko.applyBindings(viewModel);
 
-	// Apply bindings when the document is ready
-	$(document).ready(function () {
-		var viewModel = new VehicleViewModel();
-		ko.applyBindings(viewModel);
-
-		// Fetch vehicles on page load (optional)
-		viewModel.fetchVehicles();
-	});
+        viewModel.fetchVehicles(); // Fetch vehicles on page load (optional)
+    });
 </script>
+
+<style>
+    /* Basic styling for modal */
+    #addVehicleModal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        z-index: 1000;
+        display: none; /* Initially hidden */
+    }
+</style>

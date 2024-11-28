@@ -23,6 +23,9 @@ namespace RTO.Controllers
         [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle([FromBody] Vehicle vehicle)
         {
+            var requestBody = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+            Console.WriteLine($"Request Body: {requestBody}"); // Log incoming request body
+
             if (vehicle == null)
             {
                 return BadRequest("Vehicle cannot be null.");
