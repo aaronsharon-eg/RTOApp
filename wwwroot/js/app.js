@@ -1,54 +1,35 @@
-﻿function Vehicle(id, licensePlate, model, owner) {
-    this.id = id;
-    this.licensePlate = ko.observable(licensePlate);
-    this.model = ko.observable(model);
-    this.owner = ko.observable(owner);
-}
-
-function AppViewModel() {
+﻿/*function VehicleViewModel() {
     var self = this;
 
+    // Observable array to hold vehicle data
     self.vehicles = ko.observableArray([]);
+    self.isFetching = ko.observable(false);
 
-    // Observables for new vehicle inputs
-    self.newLicensePlate = ko.observable('');
-    self.newModel = ko.observable('');
-    self.newOwner = ko.observable('');
+    // Function to fetch vehicles from the API
+    self.fetchVehicles = function () {
+        self.isFetching(true);
+        self.vehicles([]); // Clear previous results
 
-    self.loadVehicles = function () {
-        $.getJSON('/api/vehicles', function (data) {
-            self.vehicles(data.map(function (item) {
-                return new Vehicle(item.id, item.licensePlate, item.model, item.owner);
-            }));
-        });
-    };
-
-    self.addVehicle = function () {
-        var newVehicle = {
-            licensePlate: self.newLicensePlate(),
-            model: self.newModel(),
-            owner: self.newOwner()
-        };
-        $.post('/api/vehicles', newVehicle, function (data) {
-            self.vehicles.push(new Vehicle(data.id, data.licensePlate, data.model, data.owner));
-            self.newLicensePlate('');
-            self.newModel('');
-            self.newOwner('');
-        });
-    };
-
-    self.deleteVehicle = function (vehicle) {
         $.ajax({
-            url: '/api/vehicles/' + vehicle.id,
-            type: 'DELETE',
-            success: function () {
-                self.vehicles.remove(vehicle);
+            url: '/api/vehicles', // Adjust the URL if necessary
+            type: 'GET',
+            success: function (data) {
+                if (data && data.length > 0) {
+                    // Populate the observable array with fetched data
+                    self.vehicles(data);
+                } else {
+                    self.vehicles([]); // No vehicles found
+                }
+            },
+            error: function () {
+                alert('Error fetching vehicles.');
+            },
+            complete: function () {
+                self.isFetching(false);
             }
         });
     };
-
-    // Load vehicles on startup
-    self.loadVehicles();
 }
 
-ko.applyBindings(new AppViewModel());
+// Apply Knockout bindings
+ko.applyBindings(new VehicleViewModel());*/
