@@ -74,39 +74,76 @@ namespace RTO.Controllers
             return NoContent(); // Return 204 No Content on successful deletion
         }
 
+		// PUT: api/Vehicles
+		//[HttpPut]
+		//public async Task<IActionResult> PutVehicle([FromBody] Vehicle vehicle)
+		//{
+		//	if (vehicle == null)
+		//	{
+		//		return BadRequest("Vehicle data is null.");
+		//	}
 
-        //API for PUT
-        [HttpPut]
-        [Route("api/[controller]")]
-        public async Task<IActionResult> PutVehicle(int id, Vehicle vehicle)
-        {
-            if(vehicle == null)
-            {
-                return BadRequest("Not Found");
-            }
-            if(id != vehicle.Id)
-            {
-                return BadRequest("The particular ID is not Found");
-            }
+		//	// Log the received ID for debugging
+		//	Console.WriteLine($"Received Vehicle ID: {vehicle.Id}");
 
-            var AccessVehicle = await _context.Vehicles.FindAsync(id);
-            if (AccessVehicle == null)
-            {
-                _context.Vehicles.Add(vehicle);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetVehicles), new { id = vehicle.Id }, vehicle);
-            }
+		//	if (vehicle.Id <= 0)
+		//	{
+		//		return BadRequest("The vehicle ID is not valid.");
+		//	}
 
-            AccessVehicle.LicensePlate = vehicle.LicensePlate;
-            AccessVehicle.Model = vehicle.Model;
-            AccessVehicle.Owner = vehicle.Owner;  
-            //AccessVehicle.RegistrationDate = vehicle.RegistrationDate;
-            await _context.SaveChangesAsync();
-            return Ok(AccessVehicle);  
-           
-        }
+		//	var existingVehicle = await _context.Vehicles.FindAsync(vehicle.Id);
+		//	if (existingVehicle == null)
+		//	{
+		//		return NotFound(); // Return NotFound if the vehicle does not exist
+		//	}
 
-    }
+		//	// Update properties of the existing vehicle
+		//	existingVehicle.LicensePlate = vehicle.LicensePlate;
+		//	existingVehicle.Model = vehicle.Model;
+		//	existingVehicle.Owner = vehicle.Owner;
+		//	existingVehicle.RegistrationDate = vehicle.RegistrationDate;
+
+		//	// Save changes to the database
+		//	await _context.SaveChangesAsync();
+
+		//	return Ok(existingVehicle); // Return the updated vehicle
+		//}
+
+
+
+
+		[HttpPut]
+		[Route("api/random/{id}")]
+		public async Task<IActionResult> PutVehicle(int id, [FromBody] Vehicle vehicle)
+
+		{
+			if (vehicle == null || id != vehicle.Id)
+			{
+				return BadRequest("Invalid vehicle data.");
+			}
+
+			if (vehicle.RegistrationDate == default(DateTime))
+			{
+				vehicle.RegistrationDate = DateTime.Now;
+			}
+
+			var existingVehicle = await _context.Vehicles.FindAsync(id);
+			if (existingVehicle == null)
+			{
+				return NotFound();
+			}
+
+			// Update properties
+			existingVehicle.LicensePlate = vehicle.LicensePlate;
+			existingVehicle.Model = vehicle.Model;
+			existingVehicle.Owner = vehicle.Owner;
+			existingVehicle.RegistrationDate = vehicle.RegistrationDate;
+
+			await _context.SaveChangesAsync();
+
+			return Ok(existingVehicle);
+		}
+	}
 }
 
 /* [Route("api/[controller]")]
