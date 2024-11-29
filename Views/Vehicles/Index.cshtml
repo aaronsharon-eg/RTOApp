@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Vehicles";
 }
-
 <h2>Vehicles</h2>
 
 <!-- Button to open the Add Vehicle modal -->
@@ -19,6 +18,21 @@
 
         <label>Owner:</label>
         <input type="text" data-bind="value: newVehicle.owner" required />
+
+        <label>Owner Address:</label>
+        <input type="text" data-bind="value: newVehicle.ownerAddress" required />
+
+        <label>Owner Contact Number:</label>
+        <input type="text" data-bind="value: newVehicle.ownerContactNumber" required />
+
+        <label>Owner Email:</label>
+        <input type="email" data-bind="value: newVehicle.ownerEmail" required />
+
+        <label>Vehicle Name:</label>
+        <input type="text" data-bind="value: newVehicle.vehicleName" required />
+
+        <label>Price:</label>
+        <input type="number" data-bind="value: newVehicle.price" step="0.01" required />
 
         <label>Registration Date:</label>
         <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required />
@@ -38,8 +52,13 @@
             <th>License Plate</th>
             <th>Model</th>
             <th>Owner</th>
+            <th>Owner Address</th>
+            <th>Owner Contact Number</th>
+            <th>Owner Email</th>
+            <th>Vehicle Name</th>
+            <th>Price</th>
             <th>Registration Date</th>
-            <th>Actions</th> <!-- Add a header for actions -->
+            <th>Actions</th><!-- Add a header for actions -->
         </tr>
     </thead>
     <tbody data-bind="foreach: vehicles">
@@ -47,17 +66,22 @@
             <td data-bind="text: licensePlate"></td>
             <td data-bind="text: model"></td>
             <td data-bind="text: owner"></td>
+            <td data-bind="text: ownerAddress"></td>
+            <td data-bind="text: ownerContactNumber"></td>
+            <td data-bind="text: ownerEmail"></td>
+            <td data-bind="text: vehicleName"></td>
+            <td data-bind="text: price"></td>
             <td data-bind="text: registrationDate"></td>
             <td>
                 <!-- Add the delete and edit buttons -->
                 <button data-bind="click: $parent.deleteVehicle">Delete</button>
-                <button data-bind="click: $parent.editVehicle">Edit</button> <!-- Edit button -->
+                <button data-bind="click: $parent.editVehicle">Edit</button><!-- Edit button -->
             </td>
         </tr>
     </tbody>
 </table>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- Ensure this line is present -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><!-- Ensure this line is present -->
 <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
 
 <script>
@@ -71,6 +95,11 @@
             licensePlate: ko.observable(),
             model: ko.observable(),
             owner: ko.observable(),
+            ownerAddress: ko.observable(), // New field
+            ownerContactNumber: ko.observable(), // New field
+            ownerEmail: ko.observable(), // New field
+            vehicleName: ko.observable(), // New field
+            price: ko.observable(), // New field
             registrationDate: ko.observable()
         };
 
@@ -79,25 +108,21 @@
 
         // Function to open the Add Vehicle modal
         self.openAddVehicleModal = function () {
-            // Clear any previous values in the form
-            self.clearForm();
-
-            // Show the modal
-            document.getElementById('addVehicleModal').style.display = 'block';
+            self.clearForm(); // Clear any previous values in the form
+            document.getElementById('addVehicleModal').style.display = 'block'; // Show the modal
         };
 
         // Function to close the Add Vehicle modal
         self.closeAddVehicleModal = function () {
-            document.getElementById('addVehicleModal').style.display = 'none';
+            document.getElementById('addVehicleModal').style.display = 'none'; // Hide the modal
         };
 
         // Function to save or update the vehicle
         self.saveVehicle = function () {
             var vehicleData = ko.toJS(self.newVehicle); // Convert observables to plain JavaScript object
 
-            // Remove id if it's empty or undefined for new vehicles
             if (!vehicleData.id) {
-                delete vehicleData.id; // Remove ID for new vehicle creation
+                delete vehicleData.id; // Remove ID for new vehicle creation if empty
             }
 
             console.log("Vehicle Data to Save:", vehicleData); // Log the data being sent
@@ -112,8 +137,8 @@
                     success: function (response) {
                         console.log("Vehicle updated successfully:", response);
                         self.clearForm();
-                        self.fetchVehicles();
-                        self.closeAddVehicleModal();
+                        self.fetchVehicles(); // Refresh the list after updating a vehicle
+                        self.closeAddVehicleModal(); // Close modal after saving
                     },
                     error: function (xhr, status, error) {
                         console.error("Error updating vehicle:", error);
@@ -129,9 +154,9 @@
                     data: JSON.stringify(vehicleData), // Send the new vehicle data
                     success: function (response) {
                         console.log("Vehicle saved successfully:", response);
-                        self.clearForm();
-                        self.fetchVehicles();
-                        self.closeAddVehicleModal();
+                        self.clearForm(); // Clear form after saving
+                        self.fetchVehicles(); // Refresh the list after saving the new vehicle
+                        self.closeAddVehicleModal(); // Close modal after saving
                     },
                     error: function (xhr, status, error) {
                         console.error("Error saving vehicle:", error);
@@ -143,54 +168,65 @@
 
         // Function to populate form fields for editing
         self.editVehicle = function (vehicle) {
-            self.newVehicle.id(vehicle.id); // Set ID for editing
+            self.newVehicle.id(vehicle.id);
             self.newVehicle.licensePlate(vehicle.licensePlate);
             self.newVehicle.model(vehicle.model);
             self.newVehicle.owner(vehicle.owner);
-            self.newVehicle.registrationDate(vehicle.registrationDate);
 
-            // Open modal for editing
-            document.getElementById('addVehicleModal').style.display = 'block';
+            // Set values for new fields when editing
+            self.newVehicle.ownerAddress(vehicle.ownerAddress);
+            self.newVehicle.ownerContactNumber(vehicle.ownerContactNumber);
+            self.newVehicle.ownerEmail(vehicle.ownerEmail);
+            self.newVehicle.vehicleName(vehicle.vehicleName);
+            self.newVehicle.price(vehicle.price);
+
+            document.getElementById('addVehicleModal').style.display = 'block'; // Open modal for editing
         };
-
 
         // Function to clear form fields after submission
         self.clearForm = function () {
-            self.newVehicle.id(''); // Clear ID field as well
+            self.newVehicle.id('');
             self.newVehicle.licensePlate('');
             self.newVehicle.model('');
             self.newVehicle.owner('');
+
+            // Clear values for new fields as well
+            self.newVehicle.ownerAddress('');
+            self.newVehicle.ownerContactNumber('');
+            self.newVehicle.ownerEmail('');
+            self.newVehicle.vehicleName('');
+            self.newVehicle.price('');
+
             self.newVehicle.registrationDate('');
         };
 
         // Function to fetch all vehicles from the server
         self.fetchVehicles = function () {
             $.ajax({
-                url: '/api/Vehicles', // Ensure this URL matches your API endpoint for GET
+                url: '/api/Vehicles',
                 type: 'GET',
                 success: function (data) {
                     console.log("Fetched Vehicles:", data);
-                    self.vehicles(data); // Populate the observable array with fetched data
+                    self.vehicles(data);
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching vehicles:", error);
-                    alert("Failed to fetch vehicles: " + xhr.responseText); // Alert user of failure
+                    alert("Failed to fetch vehicles: " + xhr.responseText);
                 }
             });
         };
 
         // Function to delete a vehicle
         self.deleteVehicle = function (vehicle) {
-            if (confirm("Are you sure you want to delete this vehicle?")) { // Confirm deletion
-			console.log("Attempting to delete vehicle with ID:", vehicle.id); // Log ID being deleted
+            if (confirm("Are you sure you want to delete this vehicle?")) {
                 $.ajax({
-				url: '/api/Vehicles', // Use the base URL for the DELETE endpoint
+                    url: '/api/Vehicles',
                     type: 'DELETE',
-				contentType: 'application/json',
-				data: JSON.stringify(vehicle.id), // Send the ID in the request body
+                    contentType: 'application/json',
+                    data: JSON.stringify(vehicle.id),
                     success: function (response) {
                         console.log("Vehicle deleted successfully:", response);
-                        self.fetchVehicles(); // Refresh the list after deletion
+                        self.fetchVehicles();
                     },
                     error: function (xhr, status, error) {
                         console.error("Error deleting vehicle:", xhr);
@@ -205,8 +241,7 @@
     $(document).ready(function () {
         var viewModel = new VehicleViewModel();
         ko.applyBindings(viewModel);
-
-        viewModel.fetchVehicles(); // Fetch vehicles on page load (optional)
+        viewModel.fetchVehicles();
     });
 </script>
 
