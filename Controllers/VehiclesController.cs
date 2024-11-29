@@ -141,7 +141,11 @@ namespace RTO.Controllers
 			existingVehicle.Model = vehicle.Model;
 			existingVehicle.Owner = vehicle.Owner;
 			existingVehicle.RegistrationDate = vehicle.RegistrationDate;
-
+            existingVehicle.VehicleName = vehicle.VehicleName;
+            existingVehicle.OwnerContactNumber = vehicle.OwnerContactNumber;
+            existingVehicle.OwnerAddress = vehicle.OwnerAddress;
+            existingVehicle.Price = vehicle.Price;
+            existingVehicle.OwnerEmail = vehicle.OwnerEmail;
 			await _context.SaveChangesAsync();
 
 			return Ok(existingVehicle);
