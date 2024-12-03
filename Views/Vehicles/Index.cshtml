@@ -1,7 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Vehicles";
 }
-<h2>Vehicles</h2>
+<h2 class="text-start">Welcome, Admin.</h2>
+<hr />
+<h2>Vehicles Lists</h2>
 <script src="./js/Knockout.js"></script>
 <!-- Button to open the Add Vehicle modal -->
 <button data-bind="click: openAddVehicleModal">Add Vehicle</button>
@@ -11,28 +13,28 @@
     <h3>Add/Edit Vehicle</h3>
     <form data-bind="submit: saveVehicle">
         <label>License Plate:</label>
-        <input type="text" data-bind="value: newVehicle.licensePlate" required />
+        <input type="text" data-bind="value: newVehicle.licensePlate" placeholder="Ex : KA19MF8008" required />
 
         <label>Model:</label>
-        <input type="text" data-bind="value: newVehicle.model" required />
+        <input type="text" data-bind="value: newVehicle.model" placeholder="Ex : 2024" required />
 
         <label>Owner:</label>
-        <input type="text" data-bind="value: newVehicle.owner" required />
+        <input type="text" data-bind="value: newVehicle.owner" placeholder="Ex : Aaron Sharon Dsouza" required />
 
         <label>Owner Address:</label>
-        <input type="text" data-bind="value: newVehicle.ownerAddress" required />
+        <input type="text" data-bind="value: newVehicle.ownerAddress" placeholder="Ex : Ajanta, Mangalore" required />
 
         <label>Owner Contact Number:</label>
-        <input type="text" data-bind="value: newVehicle.ownerContactNumber" required />
+        <input type="text" data-bind="value: newVehicle.ownerContactNumber" placeholder="Ex : 900090009" required />
 
         <label>Owner Email:</label>
-        <input type="email" data-bind="value: newVehicle.ownerEmail" required />
+        <input type="email" data-bind="value: newVehicle.ownerEmail" placeholder="eg@eg.dk" required />
 
         <label>Vehicle Name:</label>
-        <input type="text" data-bind="value: newVehicle.vehicleName" required />
+        <input type="text" data-bind="value: newVehicle.vehicleName" placeholder="Ex : Bullet" required />
 
         <label>Price:</label>
-        <input type="number" data-bind="value: newVehicle.price" step="0.01" required />
+        <input type="number" data-bind="value: newVehicle.price" placeholder="60000" step="0.01" required />
 
         <label>Registration Date:</label>
         <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required />

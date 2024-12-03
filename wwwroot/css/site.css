@@ -39,8 +39,10 @@ button {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
+    width: 90%; /* Full width with some margin */
+    max-width: 500px; /* Maximum width for larger screens */
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 80vh; /* Limit maximum height for smaller screens */
 }
 
     /* Modal Header */
@@ -52,12 +54,11 @@ button {
 /* Form Styles */
 form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack form elements vertically */
 }
 
 label {
-    margin-bottom: 5px;
-    color: #333; /* Dark text color for labels */
+    margin-bottom: 5px; /* Space between label and input */
 }
 
 input[type="text"],
@@ -65,9 +66,9 @@ input[type="email"],
 input[type="number"],
 input[type="datetime-local"] {
     padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    margin-bottom: 15px; /* Space below inputs */
+    border-radius: 5px; /* Rounded corners for inputs */
+    border: 1px solid #ccc; /* Light border */
 }
 
     input[type="text"]:focus,
@@ -80,7 +81,7 @@ input[type="datetime-local"] {
 /* Table Styles */
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; /* Remove space between borders */
 }
 
 th {
@@ -104,10 +105,7 @@ td {
 
     td button {
         padding: 5px 10px;
-        margin: 0 5px;
-        font-size: 12px;
-        display: inline-block;
-        width: auto;
+        margin-right: 5px; /* Space between action buttons */
     }
 
         /* Button Styles in Table */
@@ -120,7 +118,7 @@ td {
         }
 
         td button:hover {
-            opacity: 0.8;
+            opacity: 0.8; /* Slight transparency on hover */
         }
 
 /* Add a light border for the table */
@@ -142,3 +140,123 @@ tbody tr:hover {
 .table-responsive {
     overflow-x: auto;
 }
+
+
+/* Navbar Styles */
+.navbar {
+    background-color: #9B1C31; /* Burgundy background for navbar */
+    padding: 10px 20px; /* Padding for the navbar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex; /* Flexbox layout for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+.container-fluid {
+    display: flex;
+    justify-content: space-between; /* Space between left, center, and right sections */
+    width: 100%; /* Full width */
+}
+
+/* Left Section Styles */
+.left-section {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+.logo {
+    height: 40px; /* Adjust logo height as needed */
+    margin-right: 10px; /* Space between logo and title */
+}
+
+.site-title {
+    font-size: 24px; /* Font size for site title */
+    color: white; /* White color for title to contrast with burgundy background */
+}
+
+/* Center Section Styles */
+.center-section {
+    display: flex;
+    flex-direction: column; /* Stack paragraphs vertically */
+    align-items: center; /* Center paragraphs horizontally */
+}
+
+.nav-text {
+    margin: 0; /* Remove default margin */
+    color: white; /* White text color for contrast against burgundy */
+}
+
+/* Right Section Styles */
+.right-section {
+    margin-left: auto; /* Push the right section to the end of the navbar */
+}
+
+.github-button {
+    background-color: #FAF3E0; /* Cream background for button to stand out from navbar */
+    color: #9B1C31; /* Burgundy text color for icon */
+    border-radius: 50%; /* Round button shape */
+    padding: 10px; /* Padding for button size */
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    justify-content: center;
+    border: 2px solid #9B1C31; /* Burgundy border around button */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+    .github-button:hover {
+        background-color: #7a1625; /* Darker shade on hover */
+        transform: scale(1.1); /* Slightly enlarge on hover for effect */
+    }
+
+    .github-button i {
+        font-size: 20px; /* Size of the GitHub icon */
+    }
+
+/* Footer Styles */
+/*footer {
+    background-color: #9B1C31;*/ /* Burgundy background for footer */
+    /*padding: 20px;*/ /* Padding for the footer */
+    /*color: white;*/ /* White text color for contrast */
+/*}
+
+.footer-container {
+    display: flex;*/ /* Flexbox layout for alignment */
+    /*justify-content: space-between;*/ /* Space between left, center, and right sections */
+    /*align-items: center;*/ /* Center items vertically */
+/*}
+
+.left-section {
+    display: flex;
+    align-items: center;*/ /* Center items vertically */
+/*}
+
+.footer-logo {
+    height: 40px;*/ /* Adjust logo height as needed */
+    /*margin-right: 10px;*/ /* Space between logo and title */
+/*}
+
+.center-section {
+    display: flex;
+    align-items: center;*/ /* Center title vertically */
+/*}
+
+.footer-title {
+    font-size: 24px;*/ /* Font size for footer title */
+/*}*/
+
+/* Right Section Styles */
+/*.right-section {
+    display: flex;
+    align-items: center;*/ /* Center icons vertically */
+/*}
+
+.social-icon {
+    color: white;*/ /* White color for social icons */
+    /*font-size: 20px;*/ /* Size of the social icons */
+    /*margin-left: 15px;*/ /* Space between icons */
+    /*transition: color 0.3s ease;*/ /* Smooth transition for hover effect */
+/*}
+
+    .social-icon:hover {
+        color: #FAF3E0;*/ /* Change color on hover for better visibility */
+    /*}*/
