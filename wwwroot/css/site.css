@@ -212,6 +212,78 @@ tbody tr:hover {
         font-size: 20px; /* Size of the GitHub icon */
     }
 
+
+/* Search Bar Styles */
+.search-container {
+    display: flex;
+    justify-content: center; /* Center the search bar horizontally */
+    align-items: center;
+    margin-bottom: 20px; /* Space below the search bar */
+    position: relative;
+}
+
+.search-input {
+    width: 80%;
+    max-width: 400px; /* Maximum width for the search bar */
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 25px; /* Rounded edges for a sleek design */
+    border: 2px solid #ccc; /* Light gray border */
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for focus effects */
+}
+
+    .search-input:focus {
+        border-color: #9B1C31; /* Burgundy border color on focus */
+        box-shadow: 0 0 10px rgba(155, 28, 49, 0.5); /* Soft glowing effect when focused */
+    }
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    background-color: #9B1C31; /* Burgundy background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px; /* Rounded button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+    .search-button:hover {
+        background-color: #7a1625; /* Darker shade on hover */
+        transform: scale(1.1); /* Slightly enlarge button on hover */
+    }
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .search-input {
+        width: 70%;
+    }
+
+    .search-button {
+        padding: 8px 16px;
+    }
+}
+
+/* Add an optional animation for the search bar on page load */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
 /* Footer Styles */
 /*footer {
     background-color: #9B1C31;*/ /* Burgundy background for footer */

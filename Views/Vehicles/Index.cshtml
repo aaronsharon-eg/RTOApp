@@ -6,13 +6,15 @@
 <h2>Vehicles Lists</h2>
 <script src="./js/Knockout.js"></script>
 <!-- Button to open the Add Vehicle modal -->
-<button data-bind="click: openAddVehicleModal">Add Vehicle</button>
+<button data-bind="click: openAddVehicleModal" class="">Add Vehicle <i class="fa fa-plus"></i></button>
 <!-- Search Box -->
 <!-- Search Field -->
-<div class="mb-3">
-    <label for="search" class="form-label">Search Vehicles:</label>
-    <input type="text" class="form-control" id="search" data-bind="value: searchQuery, valueUpdate: 'input'" placeholder="Search by any field...">
+<!-- Search Bar Container -->
+<div class="search-container">
+    <input type="text" id="searchBar" placeholder=" Search vehicles..." data-bind="value: searchQuery, valueUpdate: 'input'" class="search-input">
+    @* <button id="searchButton" class="search-button">Search</button> *@
 </div>
+
 <!-- Modal for adding or editing vehicles -->
 <div id="addVehicleModal" style="display:none;">
     <h3>Add/Edit Vehicle</h3>
@@ -50,7 +52,7 @@
 </div>
 
 <!-- Button to fetch all vehicles -->
-<button data-bind="click: fetchVehicles">Fetch All Vehicles</button>
+@* <button data-bind="click: fetchVehicles">Fetch All Vehicles</button> *@
 
 <!-- Table to display fetched vehicles -->
 <table>
