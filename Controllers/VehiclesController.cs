@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using RTO.Data;
 using RTO.Models;
 
-namespace RTO.Controllers
-{
+namespace RTO.Controllers;
+
  
     public class VehiclesController : Controller
     {
@@ -151,7 +151,6 @@ namespace RTO.Controllers
 			return Ok(existingVehicle);
 		}
 	}
-}
 
 /* [Route("api/[controller]")]
  [ApiController]

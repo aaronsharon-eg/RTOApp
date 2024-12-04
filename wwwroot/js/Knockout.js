@@ -6,15 +6,15 @@ function VehicleViewModel() {
 
     // Observable properties for a new vehicle
     self.newVehicle = {
-        id: ko.observable(), // Add ID observable for editing
+        id: ko.observable(), 
         licensePlate: ko.observable(),
         model: ko.observable(),
         owner: ko.observable(),
-        ownerAddress: ko.observable(), // New field
-        ownerContactNumber: ko.observable(), // New field
-        ownerEmail: ko.observable(), // New field
-        vehicleName: ko.observable(), // New field
-        price: ko.observable(), // New field
+        ownerAddress: ko.observable(), 
+        ownerContactNumber: ko.observable(), 
+        ownerEmail: ko.observable(),
+        vehicleName: ko.observable(), 
+        price: ko.observable(), 
         registrationDate: ko.observable()
     };
 
@@ -23,13 +23,13 @@ function VehicleViewModel() {
 
     // Function to open the Add Vehicle modal
     self.openAddVehicleModal = function () {
-        self.clearForm(); // Clear any previous values in the form
-        document.getElementById('addVehicleModal').style.display = 'block'; // Show the modal
+        self.clearForm(); 
+        document.getElementById('addVehicleModal').style.display = 'block'; 
     };
 
     // Function to close the Add Vehicle modal
     self.closeAddVehicleModal = function () {
-        document.getElementById('addVehicleModal').style.display = 'none'; // Hide the modal
+        document.getElementById('addVehicleModal').style.display = 'none'; 
     };
 
     // Function to save or update the vehicle
