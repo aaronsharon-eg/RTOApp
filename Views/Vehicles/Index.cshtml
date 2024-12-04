@@ -43,8 +43,8 @@
     <label>Price:</label>
     <input type="number" data-bind="value: newVehicle.price" placeholder="60000" step="0.01" required />
 
-    <label>Registration Date:</label>
-    <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required />
+   @*  <label>Registration Date:</label>
+    <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required /> *@
 
     <button type="submit">Save Vehicle</button>
     <button type="button" data-bind="click: closeAddVehicleModal">Cancel</button>
@@ -66,7 +66,7 @@
             <th>Owner Email</th>
             <th>Vehicle Name</th>
             <th>Price</th>
-            <th>Registration Date</th>
+            @* <th>Registration Date</th> *@
             <th>Actions</th><!-- Add a header for actions -->
         </tr>
     </thead>
@@ -80,7 +80,7 @@
             <td data-bind="text: ownerEmail"></td>
             <td data-bind="text: vehicleName"></td>
             <td data-bind="text: price"></td>
-            <td data-bind="text: registrationDate"></td>
+            @* <td data-bind="text: registrationDate"></td> *@
             <td>
                 <button data-bind="click: $parent.deleteVehicle">Delete</button>
                 <button data-bind="click: $parent.editVehicle">Edit</button>

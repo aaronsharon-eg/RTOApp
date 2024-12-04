@@ -12,7 +12,7 @@
         ownerEmail: ko.observable(),
         vehicleName: ko.observable(),
         price: ko.observable(),
-        registrationDate: ko.observable()
+        registrationDate: ko.observable()  // This will be auto-filled on save and should not be editable by the user
     };
 
     // Observable array to hold fetched vehicles
@@ -56,6 +56,11 @@
     // Function to save or update the vehicle
     self.saveVehicle = function () {
         var vehicleData = ko.toJS(self.newVehicle); // Convert observables to plain JavaScript object
+
+        // Automatically set registrationDate (timestamp) for new vehicles
+        if (!vehicleData.registrationDate) {
+            vehicleData.registrationDate = new Date().toISOString(); // Set current timestamp if not provided
+        }
 
         if (!vehicleData.id) {
             delete vehicleData.id; // Remove ID for new vehicle creation if empty
@@ -169,6 +174,7 @@
         self.newVehicle.vehicleName('');
         self.newVehicle.price('');
 
+        // Do not clear registrationDate as it will be auto-filled on save
         self.newVehicle.registrationDate('');
     };
 }
