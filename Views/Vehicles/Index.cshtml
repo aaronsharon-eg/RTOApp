@@ -7,7 +7,12 @@
 <script src="./js/Knockout.js"></script>
 <!-- Button to open the Add Vehicle modal -->
 <button data-bind="click: openAddVehicleModal">Add Vehicle</button>
-
+<!-- Search Box -->
+<!-- Search Field -->
+<div class="mb-3">
+    <label for="search" class="form-label">Search Vehicles:</label>
+    <input type="text" class="form-control" id="search" data-bind="value: searchQuery, valueUpdate: 'input'" placeholder="Search by any field...">
+</div>
 <!-- Modal for adding or editing vehicles -->
 <div id="addVehicleModal" style="display:none;">
     <h3>Add/Edit Vehicle</h3>
@@ -63,7 +68,7 @@
             <th>Actions</th><!-- Add a header for actions -->
         </tr>
     </thead>
-    <tbody data-bind="foreach: vehicles">
+    <tbody data-bind="foreach: filteredVehicles">
         <tr>
             <td data-bind="text: licensePlate"></td>
             <td data-bind="text: model"></td>
@@ -75,12 +80,12 @@
             <td data-bind="text: price"></td>
             <td data-bind="text: registrationDate"></td>
             <td>
-                <!-- Add the delete and edit buttons -->
                 <button data-bind="click: $parent.deleteVehicle">Delete</button>
-                <button data-bind="click: $parent.editVehicle">Edit</button><!-- Edit button -->
+                <button data-bind="click: $parent.editVehicle">Edit</button>
             </td>
         </tr>
     </tbody>
+
 </table>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><!-- Ensure this line is present -->

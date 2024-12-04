@@ -1,35 +1,56 @@
-﻿
-
-// ViewModel for managing vehicle data
-function VehicleViewModel() {
+﻿function VehicleViewModel() {
     var self = this;
 
     // Observable properties for a new vehicle
     self.newVehicle = {
-        id: ko.observable(), 
+        id: ko.observable(),
         licensePlate: ko.observable(),
         model: ko.observable(),
         owner: ko.observable(),
-        ownerAddress: ko.observable(), 
-        ownerContactNumber: ko.observable(), 
+        ownerAddress: ko.observable(),
+        ownerContactNumber: ko.observable(),
         ownerEmail: ko.observable(),
-        vehicleName: ko.observable(), 
-        price: ko.observable(), 
+        vehicleName: ko.observable(),
+        price: ko.observable(),
         registrationDate: ko.observable()
     };
 
     // Observable array to hold fetched vehicles
     self.vehicles = ko.observableArray([]);
 
+    // Observable for the search query
+    self.searchQuery = ko.observable('');
+
+    // Computed observable for filtered vehicles
+    self.filteredVehicles = ko.computed(function () {
+        var query = self.searchQuery().toLowerCase(); // Get search query in lowercase
+        if (!query) {
+            return self.vehicles(); // If no query, return all vehicles
+        } else {
+            // Filter vehicles by checking if any field contains the query
+            return ko.utils.arrayFilter(self.vehicles(), function (vehicle) {
+                // Check if any property matches the search query (case insensitive)
+                return vehicle.licensePlate.toLowerCase().includes(query) ||
+                    vehicle.model.toLowerCase().includes(query) ||
+                    vehicle.owner.toLowerCase().includes(query) ||
+                    vehicle.ownerAddress.toLowerCase().includes(query) ||
+                    vehicle.ownerContactNumber.toLowerCase().includes(query) ||
+                    vehicle.ownerEmail.toLowerCase().includes(query) ||
+                    vehicle.vehicleName.toLowerCase().includes(query) ||
+                    vehicle.price.toString().toLowerCase().includes(query);
+            });
+        }
+    });
+
     // Function to open the Add Vehicle modal
     self.openAddVehicleModal = function () {
-        self.clearForm(); 
-        document.getElementById('addVehicleModal').style.display = 'block'; 
+        self.clearForm();
+        document.getElementById('addVehicleModal').style.display = 'block';
     };
 
     // Function to close the Add Vehicle modal
     self.closeAddVehicleModal = function () {
-        document.getElementById('addVehicleModal').style.display = 'none'; 
+        document.getElementById('addVehicleModal').style.display = 'none';
     };
 
     // Function to save or update the vehicle
@@ -81,6 +102,42 @@ function VehicleViewModel() {
         }
     };
 
+    // Function to fetch all vehicles from the server
+    self.fetchVehicles = function () {
+        $.ajax({
+            url: '/api/Vehicles',
+            type: 'GET',
+            success: function (data) {
+                console.log("Fetched Vehicles:", data);
+                self.vehicles(data); // Update the vehicles observable array
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching vehicles:", error);
+                alert("Failed to fetch vehicles: " + xhr.responseText);
+            }
+        });
+    };
+
+    // Function to delete a vehicle
+    self.deleteVehicle = function (vehicle) {
+        if (confirm("Are you sure you want to delete this vehicle?")) {
+            $.ajax({
+                url: '/api/Vehicles',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify(vehicle.id),
+                success: function (response) {
+                    console.log("Vehicle deleted successfully:", response);
+                    self.fetchVehicles();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error deleting vehicle:", xhr);
+                    alert("Failed to delete vehicle: " + xhr.responseText);
+                }
+            });
+        }
+    };
+
     // Function to populate form fields for editing
     self.editVehicle = function (vehicle) {
         self.newVehicle.id(vehicle.id);
@@ -113,42 +170,6 @@ function VehicleViewModel() {
         self.newVehicle.price('');
 
         self.newVehicle.registrationDate('');
-    };
-
-    // Function to fetch all vehicles from the server
-    self.fetchVehicles = function () {
-        $.ajax({
-            url: '/api/Vehicles',
-            type: 'GET',
-            success: function (data) {
-                console.log("Fetched Vehicles:", data);
-                self.vehicles(data);
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching vehicles:", error);
-                alert("Failed to fetch vehicles: " + xhr.responseText);
-            }
-        });
-    };
-
-    // Function to delete a vehicle
-    self.deleteVehicle = function (vehicle) {
-        if (confirm("Are you sure you want to delete this vehicle?")) {
-            $.ajax({
-                url: '/api/Vehicles',
-                type: 'DELETE',
-                contentType: 'application/json',
-                data: JSON.stringify(vehicle.id),
-                success: function (response) {
-                    console.log("Vehicle deleted successfully:", response);
-                    self.fetchVehicles();
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error deleting vehicle:", xhr);
-                    alert("Failed to delete vehicle: " + xhr.responseText);
-                }
-            });
-        }
     };
 }
 
