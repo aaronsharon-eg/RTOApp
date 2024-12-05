@@ -18,37 +18,45 @@
 <!-- Modal for adding or editing vehicles -->
 <div id="addVehicleModal" style="display:none;">
     <h3>Add/Edit Vehicle</h3>
-    <form data-bind="submit: saveVehicle">
-    <label>License Plate:</label>
-    <input type="text" data-bind="value: newVehicle.licensePlate" placeholder="Ex : KA19MF8008" required />
+    <form data-bind="submit: saveVehicle" id="vehicleForm">
+        <label>License Plate:</label>
+        <input type="text" data-bind="value: newVehicle.licensePlate" placeholder="Ex : KA19MF8008" required />
+        <div class="error-message" id="licensePlateError"></div>
 
-    <label>Model:</label>
-    <input type="text" data-bind="value: newVehicle.model" placeholder="Ex : 2024" required />
+        <label>Model:</label>
+        <input type="text" data-bind="value: newVehicle.model" placeholder="Ex : 2024" required />
+        <div class="error-message" id="modelError"></div>
 
-    <label>Owner:</label>
-    <input type="text" data-bind="value: newVehicle.owner" placeholder="Ex : Aaron Sharon Dsouza" required />
+        <label>Owner:</label>
+        <input type="text" data-bind="value: newVehicle.owner" placeholder="Ex : Aaron Sharon Dsouza" required />
+        <div class="error-message" id="ownerError"></div>
 
-    <label>Owner Address:</label>
-    <input type="text" data-bind="value: newVehicle.ownerAddress" placeholder="Ex : Ajanta, Mangalore" required />
+        <label>Owner Address:</label>
+        <input type="text" data-bind="value: newVehicle.ownerAddress" placeholder="Ex : Ajanta, Mangalore" required />
+        <div class="error-message" id="ownerAddressError"></div>
 
-    <label>Owner Contact Number:</label>
-    <input type="text" data-bind="value: newVehicle.ownerContactNumber" placeholder="Ex : 900090009" required />
+        <label>Owner Contact Number:</label>
+        <input type="text" data-bind="value: newVehicle.ownerContactNumber" placeholder="Ex : 900090009" required />
+        <div class="error-message" id="ownerContactNumberError"></div>
 
-    <label>Owner Email:</label>
-    <input type="email" data-bind="value: newVehicle.ownerEmail" placeholder="eg@eg.dk" required />
+        <label>Owner Email:</label>
+        <input type="email" data-bind="value: newVehicle.ownerEmail" placeholder="eg@eg.dk" required />
+        <div class="error-message" id="ownerEmailError"></div>
 
-    <label>Vehicle Name:</label>
-    <input type="text" data-bind="value: newVehicle.vehicleName" placeholder="Ex : Bullet" required />
+        <label>Vehicle Name:</label>
+        <input type="text" data-bind="value: newVehicle.vehicleName" placeholder="Ex : Bullet" required />
+        <div class="error-message" id="vehicleNameError"></div>
 
-    <label>Price:</label>
-    <input type="number" data-bind="value: newVehicle.price" placeholder="60000" step="0.01" required />
+        <label>Price:</label>
+        <input type="number" data-bind="value: newVehicle.price" placeholder="60000" step="0.01" required />
+        <div class="error-message" id="priceError"></div>
 
-   @*  <label>Registration Date:</label>
-    <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required /> *@
+        @*  <label>Registration Date:</label>
+        <input type="datetime-local" data-bind="value: newVehicle.registrationDate" required /> *@
 
-    <button type="submit">Save Vehicle</button>
-    <button type="button" data-bind="click: closeAddVehicleModal">Cancel</button>
-</form>
+        <button type="submit" id="submitButton" disabled>Save Vehicle</button>
+        <button type="button" data-bind="click: closeAddVehicleModal">Cancel</button>
+    </form>
 </div>
 
 <!-- Button to fetch all vehicles -->
@@ -92,7 +100,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><!-- Ensure this line is present -->
 <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
-
+<script src="./js/app.js"></script>
 <script>
    
 </script>
@@ -112,7 +120,9 @@
     }
 </style>
 
-
+<script>
+   
+</script>
 
 
 
@@ -146,47 +156,47 @@
                 <form data-bind="submit: saveVehicle">
                     <div class="mb-3">
                         <label for="licensePlate" class="form-label">License Plate:</label>
-                        <input type="text" class="form-control" id="licensePlate" data-bind="value: newVehicle.licensePlate" required />
+                        <input type="text" class="form-control" id="licensePlate" data-bind="value: newVehicle.licensePlate"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="model" class="form-label">Model:</label>
-                        <input type="text" class="form-control" id="model" data-bind="value: newVehicle.model" required />
+                        <input type="text" class="form-control" id="model" data-bind="value: newVehicle.model"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="owner" class="form-label">Owner:</label>
-                        <input type="text" class="form-control" id="owner" data-bind="value: newVehicle.owner" required />
+                        <input type="text" class="form-control" id="owner" data-bind="value: newVehicle.owner"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="ownerAddress" class="form-label">Owner Address:</label>
-                        <input type="text" class="form-control" id="ownerAddress" data-bind="value: newVehicle.ownerAddress" required />
+                        <input type="text" class="form-control" id="ownerAddress" data-bind="value: newVehicle.ownerAddress"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="ownerContactNumber" class="form-label">Owner Contact Number:</label>
-                        <input type="text" class="form-control" id="ownerContactNumber" data-bind="value: newVehicle.ownerContactNumber" required />
+                        <input type="text" class="form-control" id="ownerContactNumber" data-bind="value: newVehicle.ownerContactNumber"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="ownerEmail" class="form-label">Owner Email:</label>
-                        <input type="email" class="form-control" id="ownerEmail" data-bind="value: newVehicle.ownerEmail" required />
+                        <input type="email" class="form-control" id="ownerEmail" data-bind="value: newVehicle.ownerEmail"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="vehicleName" class="form-label">Vehicle Name:</label>
-                        <input type="text" class="form-control" id="vehicleName" data-bind="value: newVehicle.vehicleName" required />
+                        <input type="text" class="form-control" id="vehicleName" data-bind="value: newVehicle.vehicleName"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="price" class="form-label">Price:</label>
-                        <input type="number" class="form-control" id="price" data-bind="value: newVehicle.price" step="0.01" required />
+                        <input type="number" class="form-control" id="price" data-bind="value: newVehicle.price" step="0.01"  />
                     </div>
 
                     <div class="mb-3">
                         <label for="registrationDate" class="form-label">Registration Date:</label>
-                        <input type="datetime-local" class="form-control" id="registrationDate" data-bind="value: newVehicle.registrationDate" required />
+                        <input type="datetime-local" class="form-control" id="registrationDate" data-bind="value: newVehicle.registrationDate"  />
                     </div>
 
                     <div class="d-flex justify-content-between">
