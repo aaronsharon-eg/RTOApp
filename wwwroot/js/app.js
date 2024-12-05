@@ -150,13 +150,9 @@ function validateOwnerEmail() {
 
 function validateVehicleName() {
     const vehicleName = form.querySelector('[data-bind="value: newVehicle.vehicleName"]');
-    const vehicleNameRegex = /^[A-Za-z ]+$/; // Only alphabets allowed
+    //const vehicleNameRegex = /^[A-Za-z ]+^[0-9]/; // Only alphabets allowed
     if (!vehicleName.value.trim()) {
         showErrorMessage('vehicleNameError', 'Vehicle name is required');
-        disableSubmitButton();
-        return false;
-    } else if (!vehicleNameRegex.test(vehicleName.value.trim())) {
-        showErrorMessage('vehicleNameError', 'Vehicle name must contain only alphabets');
         disableSubmitButton();
         return false;
     }
