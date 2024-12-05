@@ -61,23 +61,41 @@ function validateLicensePlate() {
 
 function validateModel() {
     const model = form.querySelector('[data-bind="value: newVehicle.model"]');
+    const modelValue = model.value.trim();
+
     const modelRegex = /^[0-9]{4}$/; // Only 4 digits are allowed
-    if (!model.value.trim()) {
+
+    // Check if the model is empty
+    if (!modelValue) {
         showErrorMessage('modelError', 'Model is required');
         disableSubmitButton();
         return false;
-    } else if (!modelRegex.test(model.value.trim())) {
+    }
+
+    // Check if the model is a 4-digit number
+    if (!modelRegex.test(modelValue)) {
         showErrorMessage('modelError', 'Model must be a 4-digit number');
         disableSubmitButton();
         return false;
     }
+
+    // Check if the model is between 2000 and 2024
+    const modelNumber = parseInt(modelValue, 10);
+    if (modelNumber < 2000 || modelNumber > 2024) {
+        showErrorMessage('modelError', 'Model must be between 2000 and 2024');
+        disableSubmitButton();
+        return false;
+    }
+
+    // If all validations pass, clear error message and enable the submit button
     clearErrorMessage('modelError');
     return true;
 }
 
+
 function validateOwner() {
     const owner = form.querySelector('[data-bind="value: newVehicle.owner"]');
-    const ownerRegex = /^[A-Za-z]+$/; // Only alphabets allowed
+    const ownerRegex = /^[A-Za-z ]+$/; // Only alphabets allowed
     if (!owner.value.trim()) {
         showErrorMessage('ownerError', 'Owner name is required');
         disableSubmitButton();
@@ -132,7 +150,7 @@ function validateOwnerEmail() {
 
 function validateVehicleName() {
     const vehicleName = form.querySelector('[data-bind="value: newVehicle.vehicleName"]');
-    const vehicleNameRegex = /^[A-Za-z]+$/; // Only alphabets allowed
+    const vehicleNameRegex = /^[A-Za-z ]+$/; // Only alphabets allowed
     if (!vehicleName.value.trim()) {
         showErrorMessage('vehicleNameError', 'Vehicle name is required');
         disableSubmitButton();
