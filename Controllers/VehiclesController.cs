@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using RTO.Data;
 using RTO.Models;
 
-namespace RTO.Controllers
-{
+namespace RTO.Controllers;
+
  
     public class VehiclesController : Controller
     {
@@ -141,13 +141,16 @@ namespace RTO.Controllers
 			existingVehicle.Model = vehicle.Model;
 			existingVehicle.Owner = vehicle.Owner;
 			existingVehicle.RegistrationDate = vehicle.RegistrationDate;
-
+            existingVehicle.VehicleName = vehicle.VehicleName;
+            existingVehicle.OwnerContactNumber = vehicle.OwnerContactNumber;
+            existingVehicle.OwnerAddress = vehicle.OwnerAddress;
+            existingVehicle.Price = vehicle.Price;
+            existingVehicle.OwnerEmail = vehicle.OwnerEmail;
 			await _context.SaveChangesAsync();
 
 			return Ok(existingVehicle);
 		}
 	}
-}
 
 /* [Route("api/[controller]")]
  [ApiController]

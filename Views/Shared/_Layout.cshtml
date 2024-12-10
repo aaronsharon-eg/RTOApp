@@ -7,46 +7,76 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RTO.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/knockout-latest.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/knockout/3.1.0/knockout-3.1.0.js"></script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RTO</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+        <header>
+            <nav class="navbar mb-3">
+                <div class="container-fluid">
+                    <div class="left-section">
+                    <img src="data:image/jpeg;base64,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   " alt="Logo" class="logo" /> <!-- Replace with your logo path -->
+                        <h1 class="site-title">EG - RTO</h1>
+                    </div>
+                    @* <div class="center-section">
+                        <p class="nav-text">Your first paragraph here</p>
+                        <p class="nav-text">Your second paragraph here</p>
+                    </div> *@
+                <div class="right-section">
+                    <a href="https://global.eg.dk/" target="_blank" class="github-button">
+                        <i class="fa fa-link"></i> <!-- GitHub icon -->
+                    </a>
                 </div>
-            </div>
-        </nav>
-    </header>
+                </div>
+            </nav>
+        </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - RTO - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    @* <footer>
+        <div class="footer-container">
+            <div class="left-section">
+                <img src="path/to/your/logo.png" alt="Logo" class="footer-logo" /> <!-- Replace with your logo path -->
+            </div>
+            <div class="center-section">
+                <h1 class="footer-title">RTO</h1>
+            </div>
+            <div class="right-section">
+                <a href="https://github.com/your-repo" target="_blank" class="social-icon">
+                    <i class="fab fa-github"></i> <!-- GitHub icon -->
+                </a>
+                <a href="https://twitter.com/your-profile" target="_blank" class="social-icon">
+                    <i class="fab fa-twitter"></i> <!-- Twitter icon -->
+                </a>
+                <a href="https://facebook.com/your-profile" target="_blank" class="social-icon">
+                    <i class="fab fa-facebook"></i> <!-- Facebook icon -->
+                </a>
+            </div>
         </div>
-    </footer>
+    </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        function toggleNavbar() {
+            const navbar = document.querySelector('.navbar-collapse');
+            navbar.classList.toggle('show');
+        }
+
+        // Hide the navbar on larger screens
+        window.addEventListener('resize', function () {
+            const navbar = document.querySelector('.navbar-collapse');
+            if (window.innerWidth > 768) {
+                navbar.classList.remove('show'); // Remove 'show' class if screen is larger than 768px
+            }
+        });
+    </script>
 </body>
 </html>

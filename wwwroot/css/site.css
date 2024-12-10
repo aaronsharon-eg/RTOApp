@@ -1,22 +1,334 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* General Styles */
 body {
-  margin-bottom: 60px;
+    font-family: 'Arial', sans-serif;
+    background-color: #FAF3E0; /* Cream background for warmth */
+    margin: 0;
+    padding: 20px;
+    color: #333; /* Dark text color for readability */
 }
+
+h2 {
+    text-align: center;
+    color: #9B1C31; /* Burgundy header for a strong, sophisticated look */
+}
+
+/* Button Styles */
+button {
+    background-color: #9B1C31; /* Burgundy buttons */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+    button:hover {
+        background-color: #7a1625; /* Darker burgundy shade on hover */
+    }
+
+/* Modal Styles */
+#addVehicleModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 8px;
+    width: 90%; /* Full width with some margin */
+    max-width: 500px; /* Maximum width for larger screens */
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 80vh; /* Limit maximum height for smaller screens */
+}
+
+    /* Modal Header */
+    #addVehicleModal h3 {
+        margin-bottom: 15px;
+        color: #9B1C31; /* Burgundy modal header */
+    }
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column; /* Stack form elements vertically */
+}
+
+label {
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="datetime-local"] {
+    padding: 10px;
+    margin-bottom: 15px; /* Space below inputs */
+    border-radius: 5px; /* Rounded corners for inputs */
+    border: 1px solid #ccc; /* Light border */
+}
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    input[type="datetime-local"]:focus {
+        border-color: #6E4B3A; /* Soft brown border on focus */
+    }
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Remove space between borders */
+}
+
+th {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px 12px;
+    background-color: #f1e3d3; /* Soft cream background for headers */
+    color: #9B1C31; /* Burgundy header text */
+}
+
+td {
+    font-size: 14px;
+    padding: 8px 12px;
+    vertical-align: middle;
+}
+
+    th:last-child, td:last-child {
+        width: 180px; /* Increase width for actions column */
+    }
+
+    td button {
+        padding: 5px 10px;
+        margin-right: 5px; /* Space between action buttons */
+    }
+
+        /* Button Styles in Table */
+        td button.btn-primary {
+            background-color: #6E4B3A; /* Soft brown for Edit button */
+        }
+
+        td button.btn-danger {
+            background-color: #9B1C31; /* Burgundy for Delete button */
+        }
+
+        td button:hover {
+            opacity: 0.8; /* Slight transparency on hover */
+        }
+
+/* Add a light border for the table */
+table, th, td {
+    border: 1px solid #dee2e6;
+}
+
+/* Stripe the table rows */
+tbody tr:nth-child(even) {
+    background-color: #f8f4e3; /* Light cream-colored alternating rows */
+}
+
+/* Hover effect on rows */
+tbody tr:hover {
+    background-color: #e7d1b5; /* Soft brown hover effect */
+}
+
+/* Make the table responsive */
+.table-responsive {
+    overflow-x: auto;
+}
+
+
+/* Navbar Styles */
+.navbar {
+    background-color: #9B1C31; /* Burgundy background for navbar */
+    padding: 10px 20px; /* Padding for the navbar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex; /* Flexbox layout for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+.container-fluid {
+    display: flex;
+    justify-content: space-between; /* Space between left, center, and right sections */
+    width: 100%; /* Full width */
+}
+
+/* Left Section Styles */
+.left-section {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+.logo {
+    height: 40px; /* Adjust logo height as needed */
+    margin-right: 10px; /* Space between logo and title */
+}
+
+.site-title {
+    font-size: 24px; /* Font size for site title */
+    color: white; /* White color for title to contrast with burgundy background */
+}
+
+/* Center Section Styles */
+.center-section {
+    display: flex;
+    flex-direction: column; /* Stack paragraphs vertically */
+    align-items: center; /* Center paragraphs horizontally */
+}
+
+.nav-text {
+    margin: 0; /* Remove default margin */
+    color: white; /* White text color for contrast against burgundy */
+}
+
+/* Right Section Styles */
+.right-section {
+    margin-left: auto; /* Push the right section to the end of the navbar */
+}
+
+.github-button {
+    background-color: #FAF3E0; /* Cream background for button to stand out from navbar */
+    color: #9B1C31; /* Burgundy text color for icon */
+    border-radius: 50%; /* Round button shape */
+    padding: 10px; /* Padding for button size */
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    justify-content: center;
+    border: 2px solid #9B1C31; /* Burgundy border around button */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+    .github-button:hover {
+        background-color: #7a1625; /* Darker shade on hover */
+        transform: scale(1.1); /* Slightly enlarge on hover for effect */
+    }
+
+    .github-button i {
+        font-size: 20px; /* Size of the GitHub icon */
+    }
+
+
+/* Search Bar Styles */
+.search-container {
+    display: flex;
+    justify-content: center; /* Center the search bar horizontally */
+    align-items: center;
+    margin-bottom: 20px; /* Space below the search bar */
+    position: relative;
+}
+
+.search-input {
+    width: 80%;
+    max-width: 400px; /* Maximum width for the search bar */
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 25px; /* Rounded edges for a sleek design */
+    border: 2px solid #ccc; /* Light gray border */
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for focus effects */
+}
+
+    .search-input:focus {
+        border-color: #9B1C31; /* Burgundy border color on focus */
+        box-shadow: 0 0 10px rgba(155, 28, 49, 0.5); /* Soft glowing effect when focused */
+    }
+
+.search-button {
+    position: absolute;
+    right: 10px;
+    background-color: #9B1C31; /* Burgundy background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px; /* Rounded button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+    .search-button:hover {
+        background-color: #7a1625; /* Darker shade on hover */
+        transform: scale(1.1); /* Slightly enlarge button on hover */
+    }
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .search-input {
+        width: 70%;
+    }
+
+    .search-button {
+        padding: 8px 16px;
+    }
+}
+
+/* Add an optional animation for the search bar on page load */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
+/* Footer Styles */
+/*footer {
+    background-color: #9B1C31;*/ /* Burgundy background for footer */
+    /*padding: 20px;*/ /* Padding for the footer */
+    /*color: white;*/ /* White text color for contrast */
+/*}
+
+.footer-container {
+    display: flex;*/ /* Flexbox layout for alignment */
+    /*justify-content: space-between;*/ /* Space between left, center, and right sections */
+    /*align-items: center;*/ /* Center items vertically */
+/*}
+
+.left-section {
+    display: flex;
+    align-items: center;*/ /* Center items vertically */
+/*}
+
+.footer-logo {
+    height: 40px;*/ /* Adjust logo height as needed */
+    /*margin-right: 10px;*/ /* Space between logo and title */
+/*}
+
+.center-section {
+    display: flex;
+    align-items: center;*/ /* Center title vertically */
+/*}
+
+.footer-title {
+    font-size: 24px;*/ /* Font size for footer title */
+/*}*/
+
+/* Right Section Styles */
+/*.right-section {
+    display: flex;
+    align-items: center;*/ /* Center icons vertically */
+/*}
+
+.social-icon {
+    color: white;*/ /* White color for social icons */
+    /*font-size: 20px;*/ /* Size of the social icons */
+    /*margin-left: 15px;*/ /* Space between icons */
+    /*transition: color 0.3s ease;*/ /* Smooth transition for hover effect */
+/*}
+
+    .social-icon:hover {
+        color: #FAF3E0;*/ /* Change color on hover for better visibility */
+    /*}*/
